@@ -8,7 +8,7 @@
     <artifactId>simple-service</artifactId>
     <version>1.0.1-SNAPSHOT</version>
     <name>Simple Rest Service</name>
-    <description>Simple Rest service</description>
+    <description>Simple service</description>
     <packaging>war</packaging>
 
     <developers>
