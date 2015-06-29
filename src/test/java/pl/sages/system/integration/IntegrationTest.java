@@ -20,39 +20,57 @@ import java.io.IOException;
 
 public class IntegrationTest
 {
-	private static Server jettyServer;
+    private static Server jettyServer;
 
-	@BeforeClass
-	public static void beforeClass() throws Exception
-	{
-		jettyServer = new Server(9111);
-		jettyServer.setStopAtShutdown(true);
+    @BeforeClass
+    public static void beforeClass() throws Exception
+    {
+        jettyServer = new Server(9111);
+        jettyServer.setStopAtShutdown(true);
 
-		CXFServlet cxfServlet = new CXFServlet();
-		final ServletHolder servletHolder = new ServletHolder(cxfServlet);
-		final ServletContextHandler context = new ServletContextHandler();
+        CXFServlet cxfServlet = new CXFServlet();
+        final ServletHolder servletHolder = new ServletHolder(cxfServlet);
+        final ServletContextHandler context = new ServletContextHandler();
 
-		context.setContextPath("/system");
-		context.addServlet(servletHolder, "/*");
-		context.addEventListener(new ContextLoaderListener());
-		context.setInitParameter("contextConfigLocation", "file:src/main/webapp/WEB-INF/context.xml");
-		jettyServer.setHandler(context);
+        context.setContextPath("/system");
+        context.addServlet(servletHolder, "/*");
+        context.addEventListener(new ContextLoaderListener());
+        context.setInitParameter("contextConfigLocation", "file:src/main/webapp/WEB-INF/context.xml");
+        jettyServer.setHandler(context);
 
-		jettyServer.start();
-	}
+        jettyServer.start();
+    }
+
+    @Test
+    public void testPositive() throws IOException
+    {
+        Executor executor = Executor.newInstance();
+        HttpResponse response = executor.execute(Request.Get("http://localhost:9111/system/system/v1/ping")).returnResponse();
+        assertThat(response, notNullValue());
+        assertThat(response.getStatusLine().getStatusCode(), CoreMatchers.is(200));
+    }
 
 	@Test
-	public void testPositive() throws IOException
+	public void testPositiveTwo() throws IOException
 	{
 		Executor executor = Executor.newInstance();
-		HttpResponse response = executor.execute(Request.Get("http://localhost:9111/system/system/v1/ping")).returnResponse();
+		HttpResponse response = executor.execute(Request.Get("http://localhost:9111/system/system/v1/ping?input=abc")).returnResponse();
 		assertThat(response, notNullValue());
 		assertThat(response.getStatusLine().getStatusCode(), CoreMatchers.is(200));
 	}
 
-	@AfterClass
-	public static void afterClass() throws Exception
+	@Test
+	public void testNegative() throws IOException
 	{
-		jettyServer.stop();
+		Executor executor = Executor.newInstance();
+		HttpResponse response = executor.execute(Request.Get("http://localhost:9111/system/system/v1/ping?input=cba")).returnResponse();
+		assertThat(response, notNullValue());
+		assertThat(response.getStatusLine().getStatusCode(), CoreMatchers.is(400));
 	}
+
+    @AfterClass
+    public static void afterClass() throws Exception
+    {
+        jettyServer.stop();
+    }
 }
