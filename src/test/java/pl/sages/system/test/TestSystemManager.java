@@ -12,29 +12,29 @@ import static org.junit.Assert.assertThat;
  */
 public class TestSystemManager
 {
-	private SystemManager systemManager = new SystemManager();
+    private SystemManager systemManager = new SystemManager();
 
-	@Test
-	public void testPositive()
-	{
-		String result = systemManager.check("abc");
-		assertThat(result, notNullValue());
-		assertThat(result, is("OK!"));
-	}
+    @Test
+    public void testPositive()
+    {
+        String result = systemManager.check("abc");
+        assertThat(result, notNullValue());
+        assertThat(result, is("OK!"));
+    }
 
-	@Test
-	public void testPositiveBlankInput()
-	{
-		String result = systemManager.check("");
-		assertThat(result, notNullValue());
-		assertThat(result, is("OK!"));
-	}
+    @Test
+    public void testPositiveBlankInput()
+    {
+        String result = systemManager.check("");
+        assertThat(result, notNullValue());
+        assertThat(result, is("OK!"));
+    }
 
-	@Test
-	public void testNegative()
-	{
-		String result = systemManager.check("cba");
-		assertThat(result, notNullValue());
-		assertThat(result, is("FAILED!"));
-	}
+    @Test
+    public void testNegative()
+    {
+        String result = systemManager.check("cba");
+        assertThat(result, notNullValue());
+        assertThat(result, is("FAILED!"));
+    }
 }

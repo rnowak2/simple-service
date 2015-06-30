@@ -11,23 +11,20 @@ import org.springframework.context.annotation.Configuration;
 public class ApplicationConfig
 {
 
-	@Bean(name = "systemService")
-	public SystemRestService createSystemRestService()
-	{
-		return new SystemRestService();
-	}
+    @Bean(name = "systemService")
+    public SystemRestService createSystemRestService() {
+        return new SystemRestService();
+    }
 
-	@Bean(name = "jacksonProvider")
-	public JacksonJaxbJsonProvider jacksonJsonProvider()
-	{
-		JacksonJaxbJsonProvider jacksonJaxbJsonProvider = new JacksonJaxbJsonProvider();
-		jacksonJaxbJsonProvider.setMapper(new ObjectMapper());
-		return jacksonJaxbJsonProvider;
-	}
+    @Bean(name = "jacksonProvider")
+    public JacksonJaxbJsonProvider jacksonJsonProvider() {
+        JacksonJaxbJsonProvider jacksonJaxbJsonProvider = new JacksonJaxbJsonProvider();
+        jacksonJaxbJsonProvider.setMapper(new ObjectMapper());
+        return jacksonJaxbJsonProvider;
+    }
 
-	@Bean
-	public SystemManager createSystemManager()
-	{
-		return new SystemManager();
-	}
+    @Bean
+    public SystemManager createSystemManager() {
+        return new SystemManager();
+    }
 }
